@@ -1,5 +1,6 @@
 package com.domain.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.domain.models.entities.Supplier;
@@ -36,5 +37,12 @@ public class SupplierService {
         supplierRepo.deleteById(id);
     }
 
+    public Supplier findByEmail(String email){
+        return supplierRepo.findByEmail(email);
+    }
+
+    public List<Supplier> findByName(String name){
+        return supplierRepo.findByNameContains(name);
+    }
 
 }

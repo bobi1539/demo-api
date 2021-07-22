@@ -1,8 +1,11 @@
 package com.domain.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.domain.dto.ResponseData;
+import com.domain.dto.SearchData;
 import com.domain.dto.SupplierData;
 import com.domain.models.entities.Supplier;
 import com.domain.services.SupplierService;
@@ -81,6 +84,16 @@ public class SupplierController {
     public String removeOne(@PathVariable("id") Long id){
         supplierService.removeOne(id);
         return "Data berhasil dihapus";
+    }
+
+    @PostMapping("/search/email")
+    public Supplier findByEmail(@RequestBody SearchData searchData){
+        return supplierService.findByEmail(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/name")
+    public List<Supplier> findByName(@RequestBody SearchData searchData){
+        return supplierService.findByName(searchData.getSearchKey());
     }
 
 }
