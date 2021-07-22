@@ -3,7 +3,9 @@ package com.domain.controllers;
 import javax.validation.Valid;
 
 import com.domain.dto.ResponseData;
+import com.domain.dto.SupplierData;
 import com.domain.models.entities.Product;
+import com.domain.models.entities.Supplier;
 import com.domain.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +20,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    
+
     @Autowired
     private ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ResponseData<Product>> create(@Valid @RequestBody Product product, Errors errors){
+    public ResponseEntity<ResponseData<Product>> create(@Valid @RequestBody Product product, Errors errors) {
 
         ResponseData<Product> responseData = new ResponseData<>();
 
-        if (errors.hasErrors()){
-            for (ObjectError error : errors.getAllErrors()){
+        if (errors.hasErrors()) {
+            for (ObjectError error : errors.getAllErrors()) {
                 responseData.getMessages().add(error.getDefaultMessage());
             }
             responseData.setStatus(false);
@@ -46,22 +49,22 @@ public class ProductController {
     }
 
     @GetMapping
-    public Iterable<Product> findAll(){
+    public Iterable<Product> findAll() {
         return productService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Product findOne(@PathVariable("id") Long id){
+    public Product findOne(@PathVariable("id") Long id) {
         return productService.findOne(id);
     }
 
     @PutMapping
-    public ResponseEntity<ResponseData<Product>> update(@Valid @RequestBody Product product, Errors errors){
+    public ResponseEntity<ResponseData<Product>> update(@Valid @RequestBody Product product, Errors errors) {
 
         ResponseData<Product> responseData = new ResponseData<>();
 
-        if (errors.hasErrors()){
-            for (ObjectError error : errors.getAllErrors()){
+        if (errors.hasErrors()) {
+            for (ObjectError error : errors.getAllErrors()) {
                 responseData.getMessages().add(error.getDefaultMessage());
             }
             responseData.setStatus(false);
@@ -74,9 +77,15 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable("id") Long id){
+    public String deleteById(@PathVariable("id") Long id) {
         productService.removeOne(id);
         return "Delete data berhasil";
+    }
+
+    @PostMapping("/{id}")
+    public String addSupplier(@RequestBody Supplier supplier, @PathVariable("id") Long productId) {
+        productService.addSupplier(supplier, productId);
+        return "Data supplier berhasil ditambahkan";
     }
 
 }
