@@ -12,4 +12,6 @@ public interface SupplierRepo extends CrudRepository<Supplier, Long> {
 
     public List<Supplier> findByNameContains(String name);
 
+    public List<Supplier> findByNameStartingWith(String prefix);
+
 }
